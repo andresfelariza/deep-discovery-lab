@@ -15,7 +15,7 @@ const GROW=["Not yet — and that's how brains grow. Try the hint.","Mistakes ar
 const pick=a=>a[Math.random()*a.length|0];
 let C,T,st;
 function start(cfg){C=cfg;T=TutorTracker.init({game:C.game,defaultPlayer:C.defaultPlayer});T.mountControls($('#ctl'));intro()}
-function intro(){T.reset();st={points:0,seen:{},done:{},challenge:false,missed:[],sureWrong:0,firstTry:0,count:0,current:null};
+function intro(){T.reset();st={refl:undefined,points:0,seen:{},done:{},challenge:false,missed:[],sureWrong:0,firstTry:0,count:0,current:null};
  $('#app').innerHTML=`<div class="card center"><div class="big">${C.emoji}</div><h2>${C.title}</h2><p>${C.story}</p>
  <button class="go" onclick="QE.strategy()">Start the mission ➜</button></div>`}
 function strategy(){$('#app').innerHTML=`<div class="card"><h2>🧠 Strategy Card</h2>${C.strategy}
@@ -72,14 +72,18 @@ function finishItem(first,shown){const it=st.current;let bonus=0;st.bonusMsg='';
 function next(){nextItem()}
 function reflect(){$('#app').innerHTML=bar()+`<div class="card"><h2>🪞 One last question</h2><p><b>${C.reflectQ||'What strategy helped you most today, and why?'}</b></p>
  <div>${(C.reflectChips||[]).map(c=>`<button class="alt chip" onclick="document.getElementById('refl').value+=(document.getElementById('refl').value?' ':'')+this.textContent">${c}</button>`).join('')}</div>
- <textarea id="refl" rows="4" placeholder="Type a sentence or two…"></textarea><button class="go" onclick="QE.end()">Submit & see my results 🏆</button></div>`}
-async function end(){const refl=$('#refl').value.trim();const conf={sure:0,sureRight:0};
- const summary={firstTry:st.firstTry,total:st.count,challengeMode:st.challenge,reflection:refl,sureButWrong:st.sureWrong,points:st.points};
+ <textarea id="refl" rows="4" placeholder="Type a sentence or two…"></textarea><button class="go" onclick="QE.afterReflect()">${C.askTutorName?'Next ➜':'Submit & see my results 🏆'}</button></div>`}
+function afterReflect(){st.refl=$('#refl').value.trim();if(!C.askTutorName)return end();
+ $('#app').innerHTML=bar()+`<div class="card"><h2>🤖 Name your tutor! <span class="small">(optional)</span></h2><p><b>Your tutor needs a new name. What should we call it?</b></p>
+ <div>${(C.tutorChips||['Coach','Sage','Professor P','Mentor']).map(c=>`<button class="alt chip" onclick="document.getElementById('tname').value=this.textContent">${c}</button>`).join('')}</div>
+ <input id="tname" maxlength="40" placeholder="Type a name, or tap one above"><button class="go" onclick="QE.end()">Submit & see my results 🏆</button><button class="alt" onclick="document.getElementById('tname').value='';QE.end()">Skip</button></div>`}
+async function end(){const refl=st.refl!==undefined?st.refl:($('#refl')?$('#refl').value.trim():'');const tn=$('#tname')?$('#tname').value.trim():'';const conf={sure:0,sureRight:0};
+ const summary={firstTry:st.firstTry,total:st.count,challengeMode:st.challenge,reflection:refl,sureButWrong:st.sureWrong,points:st.points,tutorName:tn};
  $('#app').innerHTML=`<div class="card center"><div class="big">🏆</div><h2>${C.winMsg||'Mission complete!'}</h2><p id="sendst" class="small">Sending results…</p>
  <p><b>${st.firstTry} / ${st.count}</b> right on the first try.${C.confBonus?` ⭐ ${st.points} points.`:''}</p>${st.sureWrong?`<p class="small">😎 You felt sure on ${st.sureWrong} that tricked you — those are the best ones to review.</p>`:''}
  <p>${refl?'Your strategy note: “'+esc(refl)+'”':''}</p></div>
  <div class="card"><h3>📋 Review list</h3>${st.missed.length?st.missed.map(m=>`<div class="miss"><b>${m.label||''}</b> ${m.q}<div class="steps">${m.s}</div></div>`).join(''):'<p>Nothing to review — amazing!</p>'}
  <button class="go" onclick="QE.intro()">Play again</button></div>`;
  const r=await T.finish(summary);$('#sendst').textContent=r.sent?'✅ Results sent to Tutor.':(r.reason=='preview'?'👀 Preview mode: results not sent.':'⚠️ Could not send ('+r.reason+') — saved on this device.')}
-window.QE={start,intro,strategy,hub,enter,sel,check,conf,hintBtn,next,reflect,end,card,setChal};window.QuestEngine={start,norm,same};
+window.QE={afterReflect,start,intro,strategy,hub,enter,sel,check,conf,hintBtn,next,reflect,end,card,setChal};window.QuestEngine={start,norm,same};
 })();
