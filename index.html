@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Deep Discovery Lab – Research Mission 2</title><link rel="stylesheet" href="quest.css">
+<title>Discovery Station – Space Research Mission 2</title><link rel="stylesheet" href="quest.css">
 <style>body{background:#eaf2f8;color:#14202b}.card{background:#fff;box-shadow:0 2px 8px #0001}
 button{background:#0e7490;color:#fff}button.alt,.opt,.path{background:#f1f5f9;color:#14202b;border:1px solid #cbd5e1}button.go{background:#15803d;color:#fff}
 .prog>div{background:#0e7490}.passage{font-size:1.08em;line-height:1.75;border-left:6px solid #0e7490}.qcard{border-left:6px solid #15803d}
 .steps{background:#f1f5f9}.eqbox{background:#e0f2fe}.sent.picked{background:#fde68a;outline:none}.donep{opacity:.65}.good{color:#15803d}.bad{color:#b91c1c}
 .src{display:block;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;margin:10px 0}</style></head>
-<body><div class="wrap"><h1>🔭 Deep Discovery Lab</h1><div id="ctl" class="card small"></div><div id="app"></div></div>
+<body><div class="wrap"><h1>🛰️ Discovery Station</h1><div id="ctl" class="card small"></div><div id="app"></div></div>
 <script src="tracker.js"></script><script src="quest-engine.js"></script><script>
 const MC=o=>Object.assign({type:'mc'},o),TAP=o=>Object.assign({type:'tap'},o),NUM=o=>Object.assign({type:'num'},o),STEPS=o=>Object.assign({type:'steps'},o);
 const READ_STRAT=`<p><b>Level-up reading tools</b></p>
@@ -19,13 +19,13 @@ const MATH_STRAT=`<p><b>Lab math toolkit 🧪</b></p>
 <p><b>Percent change:</b> (new − old) ÷ old × 100. Always divide by the ORIGINAL amount.</p>
 <p><b>Equation from a lab situation:</b> start + rate × time = goal. Define the variable first (“let m = minutes”).</p>
 <p><b>Explain it:</b> a correct answer needs a correct reason. Check that the reason uses multiplying/scaling, not just adding.</p>`;
-QuestEngine.start({game:'deep-discovery-lab',defaultPlayer:'Mateo',emoji:'🔬',unit:'discoveries',confBonus:true,
-title:'Research Mission 2: Deep Discovery Lab',
-story:'Field Scientist, you aced Mission 1, so you\'ve been promoted to Senior Researcher. The Deep Discovery Lab has two separate zones: the Reading Archive (harder research files) and the Lab Bench (science math). Pick a zone, finish both, and file your discoveries. One question at a time.',
-strategy:`<p><b>⭐ Confidence = research data</b></p><p>Before each check, rate your confidence. You must pick; there's no default. Real scientists report how sure they are.</p>
+QuestEngine.start({game:'deep-discovery-lab',defaultPlayer:'Mateo',emoji:'🚀',unit:'discoveries',confBonus:true,
+title:'Space Research Mission 2: Discovery Station',
+story:'Field Scientist, you aced Mission 1, so you\'ve been promoted to Senior Researcher aboard Discovery Station, orbiting high above Earth. Mission Control is beaming up research files from Mars, the deep ocean, and Earth\'s labs. The station has two separate modules: the Reading Archive (harder research files) and the Lab Module (science math in zero-g). Pick a module, finish both, and transmit your discoveries home. One question at a time.',
+strategy:`<p><b>⭐ Confidence = research data</b></p><p>Before each check, rate your confidence. You must pick; there's no default. Mission Control needs to know how sure you are, just like real astronauts reporting data.</p>
 <ul><li>😎 Sure + right → +5 “Called it!” bonus</li><li>😬 Guessing + not yet → +3 honesty bonus</li><li>🙂 Kinda sure → no bonus</li></ul>
 <p>Each zone has its own strategy card. You'll see it when you enter. Tap 📇 anytime.</p>`,
-hubTitle:'🗂️ Choose a zone or file',hubHint:'Reading files and lab math are separate. Do them in any order; finish all to complete the mission.',
+hubTitle:'🛰️ Choose a module or file',hubHint:'Reading files and lab math are separate. Do them in any order; finish all to complete the mission.',
 paths:[
 {id:'glow',emoji:'✨',name:'Reading File: Living Light',title:'Living Light',desc:'Why so many ocean animals glow.',strategy:READ_STRAT,doneMsg:'Living Light file complete!',passage:[
 "Bioluminescence, the production of light by living organisms, is far more common than most people realize: one major survey found that about three-quarters of the animals it recorded in the open ocean, from the surface to nearly 4,000 meters deep, could make their own light.",
@@ -62,15 +62,15 @@ MC({id:'ma-infer',skill:'inference',label:'Read Between the Lines',q:'Based on t
 "<span class='src'><b>Source B: from a marine-mammal field guide</b><br>Baleen whales, such as humpbacks and blue whales, are not known to echolocate. Instead, they rely on low-frequency calls and songs to communicate. A male humpback's song can last up to about 20 minutes and be repeated for hours, and the deep calls of blue whales can travel hundreds of kilometers through the ocean.</span>"],items:[
 MC({id:'so-diff',skill:'compare-sources',label:'Source vs. Source',q:'How do the two sources DIFFER in focus?',opts:['Source A says whales are quiet; Source B says they are loud','Source A explains how toothed whales use sound to locate things; Source B explains how baleen whales use sound to communicate','Both sources only describe dolphins','Source A is about songs; Source B is about clicks'],a:1,h:'Give each source a 3-word summary first. A: “clicks find objects.” B: “?”',s:'A = toothed whales, echolocation to find objects. B = baleen whales, calls and songs to communicate over long distances.'}),
 MC({id:'so-both',skill:'synthesize-sources',label:'Source vs. Source',q:'Which statement is supported by BOTH sources together?',opts:['All whales use echolocation','Baleen whales are louder than sperm whales','Different kinds of whales depend on sound, but use it in different ways','Humpback whales find prey hidden in the sand'],a:2,h:'Eliminate choices that one source contradicts or that neither source says.',s:'Both show whales relying on sound, A for finding objects and B for communicating. “All whales echolocate” is contradicted by B; the others aren\'t stated.'})]},
-{id:'labmath',emoji:'🧪',name:'Lab Bench: Science Math',desc:'Rates, ratios, percents, and equations from real lab situations.',strategy:MATH_STRAT,doneMsg:'Lab Bench complete!',items:[
-NUM({id:'lm-rate',skill:'unit-rate',label:'Lab 1 · Unit rate',q:'A firefly in the lab flashes 42 times in 3 minutes. At that rate, how many flashes per minute?',a:'14',h:'Divide to get “per 1 minute.”',s:'42 ÷ 3 = 14 flashes per minute'}),
+{id:'labmath',emoji:'🧪',name:'Lab Module: Space Science Math',desc:'Rates, ratios, percents, and equations from real lab situations.',strategy:MATH_STRAT,doneMsg:'Lab Module complete!',items:[
+NUM({id:'lm-rate',skill:'unit-rate',label:'Lab 1 · Unit rate',q:'A glowing ocean sample sent up to the station flashes 42 times in 3 minutes. At that rate, how many flashes per minute?',a:'14',h:'Divide to get “per 1 minute.”',s:'42 ÷ 3 = 14 flashes per minute'}),
 NUM({id:'lm-prop',skill:'proportion',label:'Lab 2 · Proportion',q:'In a sample of 40 deep-sea animals, 30 could glow. At the same ratio, how many glowing animals would you expect in a sample of 260?',a:'195',h:'Set up 30/40 = x/260, or simplify 30/40 first.',s:'30/40 = 3/4\n3/4 × 260 = 195 animals'}),
-NUM({id:'lm-pct',skill:'percent-change',label:'Lab 3 · Percent change',q:'A bacteria colony grew from 80 cells to 116 cells. What was the percent INCREASE?',a:'45',ph:'e.g. 45%',h:'(new − old) ÷ old × 100. Divide by the ORIGINAL amount.',s:'116 − 80 = 36\n36 ÷ 80 = 0.45 → 45% increase'}),
-MC({id:'lm-write',skill:'write-equation',label:'Lab 4 · Write the equation',q:'A tank holds 12 liters of seawater. A pump adds 2.5 liters per minute. Which equation finds the number of minutes m until the tank holds 47 liters?',opts:['12m + 2.5 = 47','12 + 2.5m = 47','2.5 + 12 = 47m','47 + 2.5m = 12'],a:1,h:'Start + rate × time = goal.',s:'Start 12 L, rate 2.5 L/min → 12 + 2.5m = 47'}),
+NUM({id:'lm-pct',skill:'percent-change',label:'Lab 3 · Percent change',q:'In the station's zero-gravity lab, a bacteria colony grew from 80 cells to 116 cells. What was the percent INCREASE?',a:'45',ph:'e.g. 45%',h:'(new − old) ÷ old × 100. Divide by the ORIGINAL amount.',s:'116 − 80 = 36\n36 ÷ 80 = 0.45 → 45% increase'}),
+MC({id:'lm-write',skill:'write-equation',label:'Lab 4 · Write the equation',q:'The station's algae tank (it helps recycle air for astronauts) holds 12 liters of water. A pump adds 2.5 liters per minute. Which equation finds the number of minutes m until the tank holds 47 liters?',opts:['12m + 2.5 = 47','12 + 2.5m = 47','2.5 + 12 = 47m','47 + 2.5m = 12'],a:1,h:'Start + rate × time = goal.',s:'Start 12 L, rate 2.5 L/min → 12 + 2.5m = 47'}),
 NUM({id:'lm-solve',skill:'solve-equation',label:'Lab 5 · Solve',q:'Solve 12 + 2.5m = 47. How many minutes?',a:'14',h:'Subtract 12, then divide by 2.5.',s:'2.5m = 35\nm = 35 ÷ 2.5 = 14 minutes\nCheck: 12 + 2.5(14) = 12 + 35 = 47 ✓'}),
 STEPS({id:'lm-explain',skill:'proportional-reasoning-explain',label:'Lab 6 · Explain your thinking',q:'A growth gel recipe uses 3 grams of agar for every 200 mL of water. Your lab partner says that for 500 mL you need 6 grams, “because 500 is 300 more than 200, so add 3 more grams.”',h:'Is 500 mL ADDED to 200, or a MULTIPLE of 200?',s:'500 ÷ 200 = 2.5, so multiply: 3 × 2.5 = 7.5 g.\nRatios scale by multiplying, not by adding the same amount.',steps:[
 {eq:'3 g : 200 mL = ? g : 500 mL',q:'How much agar is needed for 500 mL?',opts:['6 g','7.5 g','5 g','8 g'],a:1,res:'7.5 g',why:'500 ÷ 200 = 2.5, and 3 × 2.5 = 7.5.'},
 {eq:'3 g : 200 mL = 7.5 g : 500 mL',q:'Which explanation is correct?',opts:['500 is 2.5 times 200, so multiply 3 g by 2.5. Ratios scale by multiplying.','Add 3 g for every extra 300 mL, so 3 + 3 = 6.','Subtract: 500 − 200 = 300, so use 300 ÷ 100 = 3 g.','The agar amount never changes, so it stays 3 g.'],a:0,res:'',why:'In a proportion both quantities are multiplied by the same scale factor.'}]})]}],
 reflectChips:['Upgraded Headline Test','Prove It: matching WHY','Combining two sentences','Source vs. Source','Unit rate / scale factor','Divide by the original'],
-reflectQ:'Which strategy helped you most today, and why?',winMsg:'Research Mission 2 complete, Senior Researcher! 🏅'});
+reflectQ:'Which strategy helped you most today, and why?',winMsg:'Discoveries transmitted to Earth! Mission 2 complete, Senior Researcher! 🏅'});
 </script></body></html>
